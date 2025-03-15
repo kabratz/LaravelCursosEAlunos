@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AlunoController;
+use App\Http\Controllers\MatriculaController;
+use App\Http\Controllers\TurmaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('home');
+
+
+Route::resource('alunos', AlunoController::class);
+Route::resource('turmas', TurmaController::class);
+Route::resource('matriculas', MatriculaController::class);
+
