@@ -14,6 +14,24 @@ class UpdateAlunoRequest extends FormRequest
         return true;
     }
 
+    public function messages(): array
+    {
+        return [
+            'nome.required' => 'O nome completo é obrigatório.',
+            'nome.string' => 'O nome deve ser um texto válido.',
+            'nome.min' => 'O nome deve ter no mínimo 3 caracteres.',
+            'nome.max' => 'O nome não pode ter mais de 255 caracteres.',
+
+            'usuario.required' => 'O nome de usuário é obrigatório.',
+            'usuario.max' => 'O nome de usuário não pode ter mais de 20 caracteres.',
+            'usuario.min' => 'O nome de usuário deve ter pelo menos 5 caracteres.',
+            'usuario.unique' => 'Este nome de usuário já está em uso. Escolha outro.',
+
+            'data_nascimento.required' => 'A data de nascimento é obrigatória.',
+            'data_nascimento.date' => 'A data de nascimento deve estar no formato correto (AAAA-MM-DD).',
+        ];
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,7 +41,7 @@ class UpdateAlunoRequest extends FormRequest
     {
         return [
             'nome' => 'required|string|max:255|min:3',
-            'usuario' => 'required|max:20|unique:alunos,usuario|min:5',
+            'usuario' => 'required|max:20|min:5|unique:alunos,usuario,' . $this->route('aluno')->id,
             'data_nascimento' => 'required|date',
         ];
     }

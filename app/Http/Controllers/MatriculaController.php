@@ -17,8 +17,8 @@ class MatriculaController extends Controller
     public function index()
     {
         $matriculas = Matricula::with('turma')->with('aluno')->orderBy('turma_id')->paginate(5);
-        // dd($matriculas);
-        return view('matriculas.index', compact('matriculas'));
+        $title = 'Lista de matrículas';
+        return view('matriculas.index', compact('matriculas', 'title'));
     }
 
 
@@ -29,7 +29,8 @@ class MatriculaController extends Controller
     {
         $turmas = Turma::orderBy('nome')->get();
         $alunos = Aluno::orderBy('nome')->get();
-        return view('matriculas.create', compact('turmas', 'alunos'));
+        $title = 'Matricular aluno';
+        return view('matriculas.create', compact('turmas', 'alunos', 'title'));
     }
 
     /**

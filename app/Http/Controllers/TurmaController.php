@@ -15,7 +15,8 @@ class TurmaController extends Controller
     public function index()
     {
         $turmas = Turma::orderBy('nome')->paginate(5);
-        return view('turmas.index', compact('turmas'));
+        $title="Lista de turmas";
+        return view('turmas.index', compact('turmas', 'title'));
     }
 
     /**
@@ -23,7 +24,8 @@ class TurmaController extends Controller
      */
     public function create()
     {
-        return view('turmas.create');
+        $title="Criar de turmas";
+        return view('turmas.create', compact('title'));
     }
 
     /**
@@ -42,7 +44,8 @@ class TurmaController extends Controller
     {
         $alunos = Aluno::orderBy('nome')->get();
         $turma->load('alunos');
-        return view('turmas.show', compact('turma', 'alunos'));
+        $title="Detalhes turma";
+        return view('turmas.show', compact('turma', 'alunos', 'title'));
     }
 
     /**
@@ -50,7 +53,8 @@ class TurmaController extends Controller
      */
     public function edit(Turma $turma)
     {
-        return view('turmas.edit', compact('turma'));
+        $title="Editar turma";
+        return view('turmas.edit', compact('turma', 'title'));
     }
 
     /**

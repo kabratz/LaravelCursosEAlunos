@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#clear-search {
+    border: none;
+    background: none;
+    color: #aaa;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#clear-search:hover {
+    color: #333;
+}

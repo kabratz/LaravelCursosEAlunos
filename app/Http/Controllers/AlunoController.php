@@ -15,15 +15,14 @@ class AlunoController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->query('search'); // Captura o termo de pesquisa
+        $search = $request->query('search');
 
-        // Filtra os alunos por nome, se houver um termo de busca
         $alunos = Aluno::when($search, function ($query, $search) {
             return $query->where('nome', 'like', "%{$search}%");
-        })->orderBy('nome')->paginate(5); // Paginação de 5 alunos por vez
-    
-        return view('alunos.index', compact('alunos'));
-    
+        })->orderBy('nome')->paginate(5);
+
+        $title = 'Lista de alunos';
+        return view('alunos.index', compact('alunos', 'title'));
     }
 
     /**
@@ -31,7 +30,8 @@ class AlunoController extends Controller
      */
     public function create()
     {
-        return view('alunos.create');
+        $title = 'Criar novo aluno';
+        return view('alunos.create', compact('title'));
     }
 
     /**
@@ -49,8 +49,9 @@ class AlunoController extends Controller
     public function show(Aluno $aluno)
     {
         $turmas = Turma::whereNotIn('id', $aluno->turmas->pluck('id'))->orderBy('nome')->get();
-        $aluno->load('turmas'); 
-        return view('alunos.show', compact('aluno', 'turmas'));
+        $aluno->load('turmas');
+        $title = 'Detahes aluno';
+        return view('alunos.show', compact('aluno', 'turmas', 'title'));
     }
 
     /**
@@ -58,7 +59,8 @@ class AlunoController extends Controller
      */
     public function edit(Aluno $aluno)
     {
-        return view('alunos.edit', compact('aluno'));
+        $title = 'Editar aluno';
+        return view('alunos.edit', compact('aluno', 'title'));
     }
 
     /**

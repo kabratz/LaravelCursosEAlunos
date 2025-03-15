@@ -1,96 +1,98 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Detalhes do Aluno</h1>
 
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
 
-    @if($aluno)
-    <div class="card">
-        <div class="card-header">
-            <h4>Informações do Aluno</h4>
-        </div>
+@if($aluno)
 
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <strong>Nome Completo:</strong>
-                </div>
-                <div class="col-md-9">
-                    {{ $aluno->nome }}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <strong>Data de Nascimento:</strong>
-                </div>
-                <div class="col-md-9">
-                    {{ \Carbon\Carbon::parse($aluno->data_nascimento)->format('d/m/Y') }}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <strong>Usuário:</strong>
-                </div>
-                <div class="col-md-9">
-                    {{ $aluno->usuario }}
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <strong>Turmas:</strong>
-                </div>
-                <div class="col-md-9">
-                    @if($aluno->turmas->isEmpty())
-                    <p>Este aluno não está matriculado em nenhuma turma.</p>
-                    @else
-                    <ul>
-                        @foreach($aluno->turmas as $turma)
-                        <li>{{ $turma->nome }}</li> <!-- Altere para o nome real da turma -->
-                        @endforeach
-                    </ul>
-                    @endif
-                </div>
-            </div>
-
-            <div class="mt-3">
-                <a href="{{ route('alunos.edit', $aluno->id) }}" class="btn btn-warning">Editar</a>
-            </div>
-        </div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div class="font-medium text-gray-700">Nome Completo:</div>
+    <div class="text-gray-900">{{ $aluno->nome }}</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div class="font-medium text-gray-700">Data de nascimento:</div>
+    <div class="text-gray-900">
+        {{ \Carbon\Carbon::parse($aluno->data_nascimento)->format('d/m/Y') }}
+        <span class="text-gray-500">
+            ({{ \Carbon\Carbon::parse($aluno->data_nascimento)->age }} anos)
+        </span>
     </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div class="font-medium text-gray-700">Usuário:</div>
+    <div class="text-gray-900">{{ $aluno->usuario }}</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    @if($aluno->turmas->isEmpty())
+    <div class="font-medium text-gray-700"> Este aluno não está matriculado em nenhuma turma.</div>
     @else
-    <p>Aluno não encontrado.</p>
+    <div class="font-medium text-gray-700">Turmas matriculado:</div>
+    <div class="text-gray-900">
+        <ul>
+            @foreach($aluno->turmas as $turma)
+            <li>{{ $turma->nome }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
+</div>
 
-     <!-- Formulário para matricular um aluno -->
-     <h3>Matricular Aluno em uma Turma</h3>
-    <form action="{{ route('matriculas.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="turma_id">Escolha a Turma:</label>
-            <select class="form-control" name="turma_id" id="turma_id" required>
-                <option value="">Selecione uma Turma</option>
-                @foreach($turmas as $turma)
+
+
+<div class="mt-6">
+    <button id="openModal" class="inline-block bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Matricular aluno</button>
+    <a href="{{ route('alunos.edit', $aluno->id) }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Editar</a>
+</div>
+@else
+<p>Aluno não encontrado.</p>
+@endif
+
+<!-- Modal para Matricular -->
+<div id="modal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg p-6 w-1/3">
+        <h3 class="text-2xl font-semibold mb-4">Matricular aluno em uma turma</h3>
+        <form action="{{ route('matriculas.store') }}" method="POST">
+            @csrf
+            <div class="mb-4">
+                <label for="turma_id" class="block text-sm font-medium text-gray-700">Escolha a Turma:</label>
+                <select class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    name="turma_id" id="turma_id" required
+                    @if($turmas->isEmpty()) disabled @endif>
+                    <option value="">Selecione uma Turma</option>
+                    @foreach($turmas as $turma)
                     <option value="{{ $turma->id }}">{{ $turma->nome }}</option>
-                @endforeach
-            </select>
-        </div>
+                    @endforeach
+                </select>
 
-        <input type="hidden" name="aluno_id" value="{{ $aluno->id }}">
+                @if($turmas->isEmpty())
+                <p class="text-red-500 mt-2">Não há turmas disponíveis para matriculação deste aluno no momento.</p>
+                @endif
 
-        <button type="submit" class="btn btn-primary">Matricular Aluno</button>
-    </form>
+            </div>
+            <input type="hidden" name="aluno_id" value="{{ $aluno->id }}">
+
+            <button type="submit" class="mt-4 w-full p-2 bg-blue-600 text-white rounded-md 
+                        @if($turmas->isEmpty()) opacity-50 cursor-not-allowed @endif"
+                @if($turmas->isEmpty()) disabled @endif>
+                Matricular aluno
+            </button>
+            <button type="button" id="closeModal" class="mt-4 ml-2 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">Cancelar</button>
+        </form>
+    </div>
+</div>
 
 </div>
+
+<script>
+    // Open Modal
+    document.getElementById('openModal').addEventListener('click', function() {
+        document.getElementById('modal').classList.remove('hidden');
+    });
+
+    // Close Modal
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('modal').classList.add('hidden');
+    });
+</script>
+
 @endsection

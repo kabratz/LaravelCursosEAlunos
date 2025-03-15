@@ -24,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             $view->with('breadcrumbs', BreadcrumbHelper::generate());
         });
+        view()->share('title');
+
         Paginator::useBootstrap();
     }
 }
