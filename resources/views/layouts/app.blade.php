@@ -42,6 +42,12 @@
                     </div>
                     @endif
 
+                    @if(session('error'))
+                    <div class="bg-red-100 text-red-800 border border-red-300 rounded p-4 mb-4">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+
 
                     @if(session('success'))
                     <div class="alert alert-success mb-4 p-4 bg-green-200 border border-green-500 text-green-800 rounded">

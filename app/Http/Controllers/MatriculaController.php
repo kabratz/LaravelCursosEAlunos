@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMatriculaRequest;
-use App\Http\Requests\UpdateMatriculaRequest;
 use App\Models\Aluno;
 use App\Models\Matricula;
 use App\Models\Turma;
+use Illuminate\Support\Facades\Log;
 
 class MatriculaController extends Controller
 {
@@ -38,21 +38,32 @@ class MatriculaController extends Controller
      */
     public function store(StoreMatriculaRequest $request)
     {
-        $existeMatricula = Matricula::where('aluno_id', $request->aluno_id)
-            ->where('turma_id', $request->turma_id)
-            ->exists();
+        try {
+            $existeMatricula = Matricula::where('aluno_id', $request->aluno_id)
+                ->where('turma_id', $request->turma_id)
+                ->exists();
 
-        if ($existeMatricula) {
-            return redirect()->back()->with('error', 'Este aluno já está matriculado nesta turma.');
+            if ($existeMatricula) {
+                return redirect()->back()->with('error', 'Este aluno já está matriculado nesta turma.');
+            }
+
+            $matricula = Matricula::create([
+                'aluno_id' => $request->aluno_id,
+                'turma_id' => $request->turma_id,
+            ]);
+
+            return redirect()->back()
+                ->with('success', 'Aluno matriculado com sucesso!');
+        } catch (\Exception $erro) {
+            Log::error('Erro ao registrar matrícula', [
+                'turma_id' => $request->turma_id,
+                'aluno_id' => $request->aluno_id,
+                'erro' => $erro->getMessage(),
+                'arquivo' => $erro->getFile(),
+                'linha' => $erro->getLine(),
+            ]);
+            return redirect()->back()->with('error', 'Não foi possível registrar matrícula! Tente novamente mais tarde.');
         }
-
-        $matricula = Matricula::create([
-            'aluno_id' => $request->aluno_id,
-            'turma_id' => $request->turma_id,
-        ]);
-
-        return redirect()->route('matriculas.index')
-            ->with('success', 'Aluno matriculado com sucesso!');
     }
 
     /**
@@ -60,7 +71,18 @@ class MatriculaController extends Controller
      */
     public function destroy(Matricula $matricula)
     {
-        $matricula->delete();
-        return redirect()->back()->with('success', 'Matrícula excluída com sucesso!');
+        try {
+            $matricula->delete();
+            return redirect()->back()->with('success', 'Matrícula excluída com sucesso!');
+        } catch (\Exception $erro) {
+            Log::error('Erro ao excluir matrícula', [
+                'matricula_id' => $matricula->id,
+                'erro' => $erro->getMessage(),
+                'arquivo' => $erro->getFile(),
+                'linha' => $erro->getLine(),
+            ]);
+
+            return redirect()->back()->with('error', 'Não foi possível excluir matrícula! Tente novamente mais tarde.');
+        }
     }
 }

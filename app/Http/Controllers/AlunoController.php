@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateAlunoRequest;
 use App\Models\Aluno;
 use App\Models\Turma;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AlunoController extends Controller
 {
@@ -39,8 +40,22 @@ class AlunoController extends Controller
      */
     public function store(StoreAlunoRequest $request)
     {
-        $aluno = Aluno::create($request->validated());
-        return redirect()->route('alunos.index')->with('success', 'Aluno criado com sucesso!');
+
+        try {
+            $aluno = Aluno::create($request->validated());
+            return redirect()->route('alunos.index')->with('success', 'Aluno criado com sucesso!');
+        } catch (\Exception $erro) {
+
+            Log::error('Erro ao criar aluno', [
+                'aluno_nome' => $request->nome,
+                'aluno_usuario' => $request->usuario,
+                'aluno_data_nascimento' => $request->data_nascimento,
+                'erro' => $erro->getMessage(),
+                'arquivo' => $erro->getFile(),
+                'linha' => $erro->getLine(),
+            ]);
+            return redirect()->back()->with('error', 'Não foi possível criar aluno! Tente novamente mais tarde.');
+        }
     }
 
     /**
@@ -68,8 +83,24 @@ class AlunoController extends Controller
      */
     public function update(UpdateAlunoRequest $request, Aluno $aluno)
     {
-        $aluno->update($request->validated());
-        return redirect()->route('alunos.index')->with('success', 'Cadastro de aluno salvo com sucesso!');
+
+        try {
+
+            $aluno->update($request->validated());
+            return redirect()->route('alunos.index')->with('success', 'Cadastro de aluno salvo com sucesso!');
+        } catch (\Exception $erro) {
+
+            Log::error('Erro ao atualizar cadastro do aluno', [
+                'aluno_id' => $aluno->id,
+                'aluno_nome' => $request->nome,
+                'aluno_usuario' => $request->usuario,
+                'aluno_data_nascimento' => $request->data_nascimento,
+                'erro' => $erro->getMessage(),
+                'arquivo' => $erro->getFile(),
+                'linha' => $erro->getLine(),
+            ]);
+            return redirect()->back()->with('error', 'Não foi possível atualizar cadastro do aluno! Tente novamente mais tarde.');
+        }
     }
 
     /**
@@ -77,7 +108,18 @@ class AlunoController extends Controller
      */
     public function destroy(Aluno $aluno)
     {
-        $aluno->delete();
-        return redirect()->route('alunos.index')->with('success', 'Aluno excluído com sucesso!');;
+        try {
+            $aluno->delete();
+            return redirect()->route('alunos.index')->with('success', 'Aluno excluído com sucesso!');;
+        } catch (\Exception $erro) {
+
+            Log::error('Erro ao excluir aluno', [
+                'aluno_id' => $aluno->id,
+                'erro' => $erro->getMessage(),
+                'arquivo' => $erro->getFile(),
+                'linha' => $erro->getLine(),
+            ]);
+            return redirect()->route('alunos.index')->with('error', 'Não foi possível excluir aluno! Tente novamente mais tarde.');;
+        }
     }
 }
