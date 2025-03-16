@@ -29,15 +29,16 @@ Ter um banco de dados rodando.
 
 <h4>Alterar os dados do banco para seu banco local</h4>
 
-Devem ser alterados os seguintes dados (com sua conexão) dentro do arquivo <code>.env</code>.
+<p>
+    Devem ser alterados os seguintes dados (com sua conexão) dentro do arquivo <code>.env</code>.
 
-<code>DB_CONNECTION=
-DB_HOST=
-DB_PORT=
-DB_DATABASE=
-DB_USERNAME=
-DB_PASSWORD=
-</code>
+    DB_CONNECTION=
+    DB_HOST=
+    DB_PORT=
+    DB_DATABASE=
+    DB_USERNAME=
+    DB_PASSWORD=
+</p>
 
 <hr>
 
@@ -93,8 +94,13 @@ Esse comando irá popular as tabelas: brands, categories e users
 
 <p>
     Para criar um usuário no banco de dados, podem ser rodados os seguintes comandos:
-    <code>php artisan tinker</code>
-    <code>
+    
+    php artisan tinker
+</p>
+<p>
+    Criar o seu usuário pelo comando abaixo (alterando dados para os seus)
+
+    
         use App\Models\User;
 
         User::create([
@@ -103,5 +109,5 @@ Esse comando irá popular as tabelas: brands, categories e users
             'password' => bcrypt('senha123'),
         ]);
 
-    </code>
+    
 </p>
