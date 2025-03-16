@@ -6,8 +6,10 @@
 <h2>Para rodar o sistema</h2>
 
 <h3>Clonar o repositório</h3>
+<p>
 
-<code>git clone https://github.com/kabratz/LaravelCursosEAlunos.git</code>
+    git clone https://github.com/kabratz/LaravelCursosEAlunos.git    
+</p>
 
 <hr>
 
@@ -22,8 +24,12 @@ Ter um banco de dados rodando.
 <hr>
 
 <h4>Copiar env</h4>
+<p>
 
-<code>cp .env.example .env</code>
+    cp .env.example .env
+
+    
+</p>
 
 <hr>
 
@@ -45,32 +51,48 @@ Ter um banco de dados rodando.
 <h4>Instalar dependências</h4>
 
 <h5>Dependências do composer</h5>
+<p>
 
-<code>composer install</code>
+    composer install
+    
+</p>
 
 <h5>Dependências do npm</h5>
 
-<code>npm install</code>
+<p>
+    
+    npm install
+    
+</p>
 
 <hr>
 
 <h3>Configurações do laravel</h3>
 
-<code>php artisan key:generate</code>
+<p>
+
+    php artisan key:generate
+    
+</p>
 
 <hr>
 
 <h3>Rodar criação das tabelas no banco de dados</h3>
 
-<code>php artisan migrate</code>
+<p>
 
+    php artisan migrate
+    
+</p>
 <hr>
 
 <h3>Rodar população inicial do banco de dados</h3>
+<p>
+    Esse comando irá popular as tabelas: brands, categories e users
 
-Esse comando irá popular as tabelas: brands, categories e users
+    php artisan db:seed
 
-<code>php artisan db:seed</code>
+</p>
 
 <hr>
 
@@ -78,7 +100,10 @@ Esse comando irá popular as tabelas: brands, categories e users
 <p>
     Em uma aba do terminal:
     <br>
-    <code>php artisan serve</code>
+    
+    php artisan serve
+</p>
+<p>
     <br>
     Acessar link gerado pelo comando acima (default http://127.0.0.1:8000/)
 </p>
@@ -86,8 +111,8 @@ Esse comando irá popular as tabelas: brands, categories e users
 
 <p>
     Em outra aba (manter a anterior aberta):
-    <br>
-    <code>npm run dev</code>
+    
+    npm run dev
 </p>
 
 <h3>Criar usuário para acesso</h3>
