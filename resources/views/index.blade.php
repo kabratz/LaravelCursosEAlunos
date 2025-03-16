@@ -27,7 +27,7 @@
             <div class="bg-white p-6 rounded-lg shadow-lg text-center">
                 <h5 class="text-xl font-semibold text-gray-800 mb-4">Matriculas</h5>
                 <p class="text-gray-600 mb-4">Visualize e gerencie as matrículas disponíveis.</p>
-                <a href="{{ route('matriculas.create') }}"
+                <a href="{{ route('matriculas.index') }}"
                     class="inline-block px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     Ver matrículas
                 </a>
