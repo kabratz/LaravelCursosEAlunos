@@ -1,20 +1,6 @@
 <h1>Sistema de cadastro de alunos, turmas e matrículas</h1>
 
-<p>Sistema desenvolvido como trabalho de conclusão do curso de Pós Graduação
-    Full-Stack da PUC-RS Online</p>
-
-<br>
-<h2>Para rodar o sistema</h2>
-
-<h3>Clonar o repositório</h3>
-<p>
-
-    git clone https://github.com/kabratz/LaravelCursosEAlunos.git
-</p>
-
-<hr>
-
-<h3>Requisitos</h3>
+<h2>🛠 Requisitos</h2>
 <ul>
     <li>
         PHP 8.1 ou superior
@@ -30,35 +16,47 @@
     </li>
     <li>
         Extensões PHP necessárias:
-    </li>
-    <li>
-        pdo
-    </li>
-    <li>
-        pdo_mysql (para MySQL) ou pdo_pgsql (para PostgreSQL)
+        <ul>
+            <li>
+                pdo
+            </li>
+            <li>
+                pdo_mysql (para MySQL) ou pdo_pgsql (para PostgreSQL)
+            </li>
+            <li>openssl</li>
+            <li>mbstring</li>
+            <li>tokenizer</li>
+            <li>ctype</li>
+            <li>json</li>
+            <li>intl <span style="color: gray;">(necessário para formatação de números e datas)</span></li>
+            <li>bcmath</li>
+        </ul>
     </li>
 </ul>
-📌 Certifique-se de que seu ambiente possui todas as dependências antes de
+💡 Certifique-se de que seu ambiente possui todas as dependências antes de
 continuar
-<hr>
 
-<h3>Setups Iniciais</h3>
-<hr>
+<h2>📃 Clonar o Repositório</h2>
+<p>
 
-<h4>Copiar env</h4>
+    git clone https://github.com/kabratz/LaravelCursosEAlunos.git
+</p>
+
+
+<h2>⚙️ Setups Iniciais</h2>
+<h3>📄 Copiar arquivo .env</h3>
 <p>
 
     cp .env.example .env
 
 </p>
 
-<hr>
 
-<h4>Alterar os dados do banco para seu banco local</h4>
+<h3>🔧 Conectar banco de dados</h3>
 
 <p>
-    Devem ser alterados os seguintes dados (com sua conexão) dentro do arquivo
-    <code>.env</code>.
+    Edite o arquivo .env e altere as configurações do banco de dados para a sua
+    conexão:
 
     DB_CONNECTION=
     DB_HOST=
@@ -66,20 +64,21 @@ continuar
     DB_DATABASE=
     DB_USERNAME=
     DB_PASSWORD=
+
+💡 Caso use PostgreSQL, altere DB_CONNECTION=pgsql.
 </p>
 
-<hr>
 
-<h4>Instalar dependências</h4>
+<h3>📦 Instalar Dependências</h3>
 
-<h5>Dependências do composer</h5>
+<h4>Dependências do composer</h4>
 <p>
 
     composer install
 
 </p>
 
-<h5>Dependências do npm</h5>
+<h4>Dependências do npm</h4>
 
 <p>
 
@@ -87,65 +86,47 @@ continuar
 
 </p>
 
-<hr>
 
-<h3>Configurações do laravel</h3>
-
+<h2>🔑 Configurações do Laravel</h2>
+<h3>Gerar Chave da Aplicação</h3>
 <p>
 
     php artisan key:generate
 
 </p>
 
-<hr>
 
-<h3>Rodar criação das tabelas no banco de dados</h3>
+<h3>Criar as Tabelas no Banco de Dados</h3>
 
 <p>
 
     php artisan migrate
 
 </p>
-<hr>
 
-<h3>Rodar população inicial do banco de dados</h3>
-<p>
-    Esse comando irá popular as tabelas: brands, categories e users
 
-    php artisan db:seed
-
-</p>
-
-<hr>
-
-<h3>Rodar os comandos que sobem o servidor</h3>
+<h2>🚀 Rodar o Sistemas</h2>
 <p>
     Em uma aba do terminal:
     <br>
 
-    php artisan serve
-</p>
-<p>
-    <br>
-    Acessar link gerado pelo comando acima (default http://127.0.0.1:8000/)
-</p>
+    php artisan serve --host=0.0.0.0 & npm run dev
 
-<p>
-    Em outra aba (manter a anterior aberta):
-
-    npm run dev
 </p>
+💡 Isso inicia o backend e o frontend no mesmo terminal.
+<br>
+<br>
+Acesse no navegador: http://127.0.0.1:8000
 
-<h3>Criar usuário para acesso</h3>
+<h2>👤 Criar Usuário para Acesso</h2>
 
 <p>
-    Para criar um usuário no banco de dados, podem ser rodados os seguintes
-    comandos:
+    Para criar um usuário no banco de dados, execute:
 
     php artisan tinker
 </p>
 <p>
-    Criar o seu usuário pelo comando abaixo (alterando dados para os seus)
+    Dentro do tinker, execute:
 
     use App\Models\User;
 
@@ -154,5 +135,10 @@ continuar
     'email' => 'usuario@exemplo.com',
     'password' => bcrypt('senha123'),
     ]);
+
+</p>
+
+<p>
+    Agora, faça login com o e-mail e senha cadastrados.
 
 </p>
