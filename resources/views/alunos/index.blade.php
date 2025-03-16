@@ -20,19 +20,21 @@
 <table class="table table-bordered w-full text-left">
     <thead class="bg-gray-100">
         <tr>
-            <th class="px-4 py-2">Nome</th>
-            <th class="px-4 py-2">Usuário</th>
-            <th class="px-4 py-2">Data de Nascimento</th>
-            <th class="px-4 py-2">Ações</th>
+            <th class="px-4 py-2 border-b w-1/4">Nome</th>
+            <th class="px-4 py-2 border-b w-1/4">Usuário</th>
+            <th class="px-4 py-2 border-b w-1/4">Data de Nascimento</th>
+            <th class="px-4 py-2 border-b w-1/4">Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach($alunos as $aluno)
         <tr>
-            <td class="px-4 py-2">{{ $aluno->nome }}</td>
-            <td class="px-4 py-2">{{ $aluno->usuario }}</td>
-            <td class="px-4 py-2">{{ $aluno->data_nascimento->format('d/m/Y') }}</td>
-            <td class="px-4 py-2">
+            <td class="px-4 py-2 border-b w-1/4">{{ $aluno->nome }}</td>
+            <td class="px-4 py-2 border-b w-1/4">
+                {{ \Illuminate\Support\Str::limit($aluno->usuario, 30, '...') }}
+            </td>
+            <td class="px-4 py-2 border-b w-1/4">{{ $aluno->data_nascimento->format('d/m/Y') }}</td>
+            <td class="px-4 py-2 border-b w-1/4">
                 <a href="{{ route('alunos.show', $aluno->id) }}" class="btn btn-info px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600">Ver</a>
                 <a href="{{ route('alunos.edit', $aluno->id) }}" class="btn btn-warning px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Editar</a>
                 <form action="{{ route('alunos.destroy', $aluno->id) }}" method="POST" style="display:inline;">
@@ -49,11 +51,9 @@
 <p class="text-gray-600">Nenhum aluno encontrado.</p>
 @endif
 
-
 <div class="mt-4">
     {{ $alunos->links('pagination::tailwind') }}
 </div>
-
 
 <script>
     const searchInput = document.getElementById('search');

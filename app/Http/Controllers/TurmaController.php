@@ -43,8 +43,9 @@ class TurmaController extends Controller
     public function show(Turma $turma)
     {
         $alunos = Aluno::orderBy('nome')->get();
-        $turma->load('alunos');
+        $turma->load('matriculas.aluno');
         $title="Detalhes turma";
+        // dd($turma);
         return view('turmas.show', compact('turma', 'alunos', 'title'));
     }
 

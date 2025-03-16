@@ -14,15 +14,24 @@
 
 <div class="mb-4">
     <strong class="text-gray-700">Alunos: </strong>
-    @if($turma->alunos->count() > 0)
-    <p class="text-gray-600">Total de alunos: {{ $turma->alunos->count() }}</p>
-    <ul class="list-disc pl-5 text-gray-600">
-        @foreach($turma->alunos as $aluno)
-        <li>{{ $aluno->nome }}</li>
-        @endforeach
-    </ul>
+    @if($turma->matriculas->count() > 0)
+        <p class="text-gray-600">Total de matrículas: {{ $turma->matriculas->count() }}</p>
+        <ul class="list-disc pl-5 text-gray-600">
+            @foreach($turma->matriculas as $matricula)
+            <li class="flex items-center justify-between bg-gray-50 border-b p-4 rounded mb-2">
+                <span>{{ $matricula->aluno->nome }}</span>
+                <form action="{{ route('matriculas.destroy', $matricula->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja desmatricular {{ $matricula->aluno->nome }}?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">
+                        Desmatricular
+                    </button>
+                </form>
+            </li>
+            @endforeach
+        </ul>
     @else
-    <p class="text-gray-600">Não há alunos matriculados nesta turma.</p>
+        <p class="text-gray-600">Não há alunos matriculados nesta turma.</p>
     @endif
 </div>
 

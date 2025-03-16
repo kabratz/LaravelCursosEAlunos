@@ -21,7 +21,7 @@ class Turma extends Model
     /**
      * Pega as matriculas associadas à turma.
      */
-    public function maticulas(): HasMany
+    public function matriculas(): HasMany
     {
         return $this->hasMany(Matricula::class);
     }

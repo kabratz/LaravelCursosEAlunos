@@ -61,6 +61,6 @@ class MatriculaController extends Controller
     public function destroy(Matricula $matricula)
     {
         $matricula->delete();
-        return redirect()->route('matriculas.index')->with('success', 'Matrícula excluída com sucesso!');
+        return redirect()->back()->with('success', 'Matrícula excluída com sucesso!');
     }
 }

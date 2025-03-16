@@ -6,18 +6,18 @@
 @if($matriculas->count())
 <table class="min-w-full bg-white shadow-md rounded-lg">
     <thead>
-        <tr>
-            <th class="px-4 py-2 border-b text-left">Turma</th>
-            <th class="px-4 py-2 border-b text-left">Aluno</th>
-            <th class="px-4 py-2 border-b text-left">Ações</th>
+        <tr class="bg-gray-100">
+            <th class="px-4 py-2 border-b text-left w-1/3">Turma</th>
+            <th class="px-4 py-2 border-b text-left w-1/3">Aluno</th>
+            <th class="px-4 py-2 border-b text-left w-1/3">Ações</th>
         </tr>
     </thead>
     <tbody>
         @foreach($matriculas as $matricula)
         <tr>
-            <td class="px-4 py-2 border-b">{{ $matricula->turma->nome }}</td>
-            <td class="px-4 py-2 border-b">{{ $matricula->aluno->nome }}</td>
-            <td class="px-4 py-2 border-b">
+            <td class="px-4 py-2 border-b w-1/3">{{ $matricula->turma->nome }}</td>
+            <td class="px-4 py-2 border-b w-1/3">{{ $matricula->aluno->nome }}</td>
+            <td class="px-4 py-2 border-b w-1/3">
                 <form action="{{ route('matriculas.destroy', $matricula->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja desmatricular {{$matricula->aluno->nome }} da turma {{$matricula->turma->nome}}?')">
                     @csrf
                     @method('DELETE')
