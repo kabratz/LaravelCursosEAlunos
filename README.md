@@ -97,14 +97,19 @@ continuar
 
 
 <h3>Criar as Tabelas no Banco de Dados</h3>
-
+Utilizar a migração do laravel
 <p>
 
     php artisan migrate
 
 </p>
 
+Ou utilizar o dump do banco de dados (Mysql)
+<p>
 
+    mysql -u SEU_USUARIO -p SEU_BANCO < ./database/dump.sql
+
+</p>
 <h2>🚀 Rodar o Sistemas</h2>
 <p>
     Em uma aba do terminal:
